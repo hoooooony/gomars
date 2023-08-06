@@ -1,23 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
-
+import "./App.css";
+import CoinList from "./components/coinList.js";
+import MyCoin from "./components/myCoin";
+import InterestCoin from "./components/interestCoin";
 function App() {
+  const accessparams = { key: process.env.REACT_APP_ACCESSKEY }; //전역적으로 관리해야함
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <img
+        style={({ width: "170px" }, { height: "170px" })}
+        src="image/dogeCoin.png"
+      />
+      <MyCoin></MyCoin>
+      <InterestCoin></InterestCoin>
+      <CoinList></CoinList>
     </div>
   );
 }
