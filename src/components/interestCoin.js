@@ -1,16 +1,45 @@
-import { styled } from "styled-components";
 import React, { useRef, useState } from "react";
-
+import { styled } from "styled-components";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import useCoinListStore from "../store/coinListStore";
+import InterestCoinCard from "./interestCoinCard";
 const InterestCoin = () => {
+  const { krwMarkets, krwMarketDetail, interestCoin } = useCoinListStore();
+
   return (
-    <>
-      <StyledInterestCoinCotainer>
-        <StyledInterestCoinBox>
-          <StyledInterestTitle>관심종목</StyledInterestTitle>
-          <StyledTitleDivide></StyledTitleDivide>
-        </StyledInterestCoinBox>
-      </StyledInterestCoinCotainer>
-    </>
+    <StyledInterestCoinCotainer>
+      <StyledInterestCoinBox>
+        <StyledInterestTitle>관심종목</StyledInterestTitle>
+        <StyledTitleDivide></StyledTitleDivide>
+        <Swiper
+          spaceBetween={10}
+          slidesPerView={4}
+          onSlideChange={() => console.log("slide change")}
+          onSwiper={(swiper) => console.log(swiper)}
+        >
+          {interestCoin.map((market, index) => {
+            const marketDetail = krwMarketDetail.find(
+              (item) => item.market === market
+            );
+            const marketKoreanName = krwMarkets.find(
+              (item) => item.market === market
+            );
+            return (
+              <SwiperSlide key={index}>
+                <InterestCoinCard
+                  name={marketKoreanName?.korean_name}
+                  trade_price={marketDetail?.trade_price}
+                  signed_change_rate={marketDetail?.signed_change_rate}
+                  high={marketDetail?.highest_52_week_price}
+                  low={marketDetail?.lowest_52_week_price}
+                />
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
+      </StyledInterestCoinBox>
+    </StyledInterestCoinCotainer>
   );
 };
 const StyledInterestCoinCotainer = styled.div`

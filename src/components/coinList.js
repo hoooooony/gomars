@@ -3,6 +3,7 @@ import axios from "axios";
 import styled from "styled-components";
 import useCoinListStore from "../store/coinListStore";
 import { Tooltip } from "react-tooltip";
+import { getMarketApi, getMarketDetailApi } from "../api/getmarketapi";
 
 function CoinList() {
   const {
@@ -11,7 +12,8 @@ function CoinList() {
     interestCoin,
     setKrwMarkets,
     setKrwMarketDetail,
-    setInterestCoin,
+    addInterestCoin,
+    removeInterestCoin,
   } = useCoinListStore();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -20,55 +22,43 @@ function CoinList() {
   const totalItems = krwMarketDetail.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  const getMarketApi = async () => {
+  const fetchMarkets = async () => {
     try {
-      const response = await axios.get("https://api.upbit.com/v1/market/all");
-
-      if (response.data && Array.isArray(response.data)) {
-        const krwMarketsData = response.data.filter((item) =>
-          item.market.startsWith("KRW-")
-        );
-        setKrwMarkets(krwMarketsData);
-      } else {
-        alert("Error fetching data");
+      const data = await getMarketApi();
+      if (data) {
+        setKrwMarkets(data.filter((item) => item.market.startsWith("KRW-")));
       }
     } catch (error) {
-      alert("Error fetching data: " + error.message);
+      console.error("Error fetching market data:", error);
     }
   };
 
-  const getMarketDetailApi = async (markets) => {
+  const fetchMarketDetails = async (markets) => {
     try {
-      const response = await axios.get(
-        `https://api.upbit.com/v1/ticker?markets=${markets.join(",")}`
-      );
-      if (response.data && Array.isArray(response.data)) {
-        sortBySignedChangeRate(response.data);
-      } else {
-        alert("Error fetching data");
+      const data = await getMarketDetailApi(markets);
+      if (data) {
+        sortBySignedChangeRate(data);
       }
     } catch (error) {
-      alert("Error fetching price data: " + error.message);
+      console.error("Error fetching market details:", error);
     }
   };
 
   useEffect(() => {
-    if (krwMarkets.length > 0) {
-      const marketList = krwMarkets.map((item) => item.market);
-      getMarketDetailApi(marketList);
-    }
-  }, [krwMarkets, upDownState]);
-
-  useEffect(() => {
-    getMarketApi();
-    const intervalId = setInterval(getMarketApi, 1000);
+    fetchMarkets();
+    const intervalId = setInterval(fetchMarkets, 1000);
     return () => {
       clearInterval(intervalId);
     };
   }, []);
+
   useEffect(() => {
-    console.log(interestCoin);
-  }, [interestCoin]);
+    if (krwMarkets.length > 0) {
+      const marketList = krwMarkets.map((item) => item.market);
+      fetchMarketDetails(marketList);
+    }
+  }, [krwMarkets, upDownState]);
+
   const getKoreanNameFromMarket = (market) => {
     const marketData = krwMarkets.find((item) => item.market === market);
     return marketData ? marketData.korean_name : "N/A";
@@ -76,7 +66,8 @@ function CoinList() {
 
   const signedChangeRateCal = (signed_change_rate) => {
     const changeRate = signed_change_rate * 100;
-    return changeRate.toFixed(2);
+    const formattedChangeRate = changeRate.toFixed(2);
+    return changeRate > 0 ? `+${formattedChangeRate}` : formattedChangeRate;
   };
 
   const sortBySignedChangeRate = (data) => {
@@ -102,15 +93,6 @@ function CoinList() {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-  const addInterestCoin = (market) => {
-    if (!interestCoin.includes(market)) {
-      setInterestCoin([...interestCoin, market]);
-    }
-  };
-
-  const deleteInterestCoin = (market) => {
-    setInterestCoin(interestCoin.filter((item) => item !== market));
-  };
   const renderTableRows = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
@@ -126,15 +108,15 @@ function CoinList() {
         >
           {getKoreanNameFromMarket(item.market)}
         </StyledTd>
-        <td>{item.trade_price.toLocaleString()}</td>
+        <td>{item.trade_price.toLocaleString()}₩</td>
         <StyledTd>
-          <StyledChangeRate ratebool={item.signed_change_rate}>
+          <StyledChangeRate rate={item.signed_change_rate}>
             {signedChangeRateCal(item.signed_change_rate)}%
           </StyledChangeRate>
         </StyledTd>
         <td>
           {interestCoin.includes(item.market) ? (
-            <StyledDeleteButton onClick={() => deleteInterestCoin(item.market)}>
+            <StyledDeleteButton onClick={() => removeInterestCoin(item.market)}>
               삭제
             </StyledDeleteButton>
           ) : (
@@ -158,12 +140,12 @@ function CoinList() {
                   <th>순번</th>
                   <th style={{ width: "100px" }}>이름</th>
                   <th style={{ width: "80px" }}>가격</th>
-                  <th>
+                  <StyledTh>
                     등락율
                     <StyledUpDownButton onClick={changeSort}>
                       {upDownState}
                     </StyledUpDownButton>
-                  </th>
+                  </StyledTh>
                   <th>관심종목</th>
                 </tr>
               </StyledThead>
@@ -225,9 +207,9 @@ const StyledChangeRate = styled.div`
   border: 0;
   background-color: ${(props) => {
     let backgroundColor;
-    if (props.ratebool > 0) {
+    if (props.rate > 0) {
       backgroundColor = "#2333c2";
-    } else if (props.ratebool < 0) {
+    } else if (props.rate < 0) {
       backgroundColor = "#C22323";
     } else {
       backgroundColor = "#B1B1B1";
@@ -273,6 +255,10 @@ const StyledTd = styled.td`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  padding: 2px;
 `;
-
+const StyledTh = styled.th`
+  display: flex;
+  align-items: center;
+`;
 export default CoinList;

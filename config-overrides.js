@@ -14,7 +14,6 @@ module.exports = function override(config) {
   });
   config.resolve.fallback = fallback;
 
-  // 여기에 추가로 JSX 런타임 관련 alias 설정을 넣습니다.
   config.resolve.alias = {
     ...config.resolve.alias,
     "react/jsx-dev-runtime.js": "react/jsx-dev-runtime",
