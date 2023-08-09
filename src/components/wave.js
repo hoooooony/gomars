@@ -9,7 +9,7 @@ const WaveSVG = (props) => (
       xmlns="http://www.w3.org/2000/svg"
       preserveAspectRatio="none"
       overflow="auto"
-      shape-rendering="auto"
+      shapeRendering="auto"
       fill="#ffffff"
     >
       <defs>

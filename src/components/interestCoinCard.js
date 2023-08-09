@@ -14,6 +14,17 @@ const InterestCoin = ({
     const formattedChangeRate = changeRate.toFixed(2);
     return changeRate > 0 ? `+${formattedChangeRate}` : formattedChangeRate;
   };
+
+  const calculateRocketTopPosition = (rate) => {
+    const topPosition = 80 - rate * 5;
+    return `${topPosition}px`;
+  };
+
+  const rocketTopPosition =
+    signed_change_rate > 0
+      ? calculateRocketTopPosition(signed_change_rate * 100)
+      : "90px";
+
   const { removeInterestCoin } = useCoinListStore();
   return (
     <>
@@ -36,8 +47,8 @@ const InterestCoin = ({
               src="image/dogeCoin.png"
             />
           ) : (
-            <img
-              style={{ width: "90px", height: "90px" }}
+            <StyledDogeRocket
+              top={rocketTopPosition}
               src="image/dogerocket.png"
             />
           )}
@@ -122,5 +133,10 @@ const StyledNewRecord = styled.p`
   margin: 0;
   font-weight: 500;
 `;
-
+const StyledDogeRocket = styled.img`
+  position: absolute;
+  top: ${(props) => props.top};
+  width: 90px;
+  height: 90px;
+`;
 export default InterestCoin;
