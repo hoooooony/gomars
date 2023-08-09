@@ -1,11 +1,20 @@
 import { styled } from "styled-components";
-
-const InterestCoin = ({ name, trade_price, signed_change_rate, high, low }) => {
+import WaveSVG from "./wave";
+import useCoinListStore from "../store/coinListStore";
+const InterestCoin = ({
+  market,
+  name,
+  trade_price,
+  signed_change_rate,
+  high,
+  low,
+}) => {
   const signedChangeRateCal = (signed_change_rate) => {
     const changeRate = signed_change_rate * 100;
     const formattedChangeRate = changeRate.toFixed(2);
     return changeRate > 0 ? `+${formattedChangeRate}` : formattedChangeRate;
   };
+  const { removeInterestCoin } = useCoinListStore();
   return (
     <>
       <StyledInterestCoinCard>
@@ -15,26 +24,36 @@ const InterestCoin = ({ name, trade_price, signed_change_rate, high, low }) => {
           <StyledChangeRate rate={signed_change_rate}>
             {signedChangeRateCal(signed_change_rate)}%
           </StyledChangeRate>
-          <div>52주 신고가: {high}</div>
-          <div>52주 신저가: {low}</div>
+          <div>52주 신고가: </div>
+          <StyledNewRecord color="#2333c2">{high}</StyledNewRecord>
+          <div>52주 신저가: </div>
+          <StyledNewRecord color="#C22323">{low}</StyledNewRecord>
         </StyledInfoBox>
         <StyledImageBox>
           <img
             style={{ width: "80px", height: "80px" }}
             src="image/dogeCoin.png"
           />
-          {signed_change_rate < 0 && <WaveOverlay rate={signed_change_rate} />}
+          {signed_change_rate < 0 && <WaveSVG rate={signed_change_rate} />}
         </StyledImageBox>
+        <StyledDeleteButton onClick={() => removeInterestCoin(market)}>
+          <img
+            style={{ width: "25px", height: "25px" }}
+            src="image/trashcan.png"
+          ></img>
+        </StyledDeleteButton>
       </StyledInterestCoinCard>
     </>
   );
 };
 
 const StyledInterestCoinCard = styled.div`
+  position: relative;
   display: flex;
   justify-content: space-around;
   margin-top: 10px;
-  height: 180px;
+  height: 185px;
+  width: 300px;
   background-color: white;
   border-radius: 25px;
   padding: 3px;
@@ -66,19 +85,34 @@ const StyledInfoBox = styled.div`
   align-items: center;
   flex-direction: column;
 `;
-const WaveOverlay = styled.div`
-  position: absolute;
-  top: ${(props) => 180 + props.rate * 100 * 20}px;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: rgba(0, 0, 220, 0.9);
-`;
 
 const StyledImageBox = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 180px;
+  width: 170px;
+  overflow: hidden;
+  border-radius: 25px;
+  padding: 0;
+`;
+
+const StyledDeleteButton = styled.button`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25px;
+  height: 25px;
+  top: 0;
+  right: -1px;
+  cursor: pointer;
+`;
+const StyledNewRecord = styled.p`
+  color: ${(props) => props.color};
+  font-size: 20px;
+  margin: 0;
+  font-weight: 500;
 `;
 export default InterestCoin;

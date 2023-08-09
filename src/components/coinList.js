@@ -101,10 +101,10 @@ function CoinList() {
       <tr key={index}>
         <td>{startIndex + index + 1}</td>
         <StyledTd
-          data-tooltip-id="my-tooltip"
+          data-tooltip-id="name-tooltip"
           data-tooltip-content={`이름: ${getKoreanNameFromMarket(
             item.market
-          )},가격: ${item.trade_price}, 변화율: ${item.signed_change_rate}`}
+          )} 가격: ${item.trade_price} 변화율: ${item.signed_change_rate}`}
         >
           {getKoreanNameFromMarket(item.market)}
         </StyledTd>
@@ -140,7 +140,10 @@ function CoinList() {
                   <th>순번</th>
                   <th style={{ width: "100px" }}>이름</th>
                   <th style={{ width: "80px" }}>가격</th>
-                  <StyledTh>
+                  <StyledTh
+                    data-tooltip-id="rate-tooltip"
+                    data-tooltip-content={"기준 09:00:00(KST)"}
+                  >
                     등락율
                     <StyledUpDownButton onClick={changeSort}>
                       {upDownState}
@@ -169,7 +172,20 @@ function CoinList() {
           </StyledButtonContainer>
         </StyledListBox>
       </StyledListContainer>
-      <Tooltip id="my-tooltip" place="right" type="dark" effect="float" />
+      <Tooltip
+        id="name-tooltip"
+        place="right"
+        type="dark"
+        effect="float"
+        offset={5}
+      />
+      <Tooltip
+        id="rate-tooltip"
+        place="top"
+        type="dark"
+        effect="float"
+        offset={-5}
+      />
     </>
   );
 }
@@ -235,6 +251,7 @@ const StyledAddButton = styled.button`
   height: 25px;
   border-radius: 15px;
   color: white;
+  cursor: pointer;
 `;
 const StyledDeleteButton = styled.button`
   border: 0px;
@@ -243,6 +260,7 @@ const StyledDeleteButton = styled.button`
   height: 25px;
   border-radius: 15px;
   color: white;
+  cursor: pointer;
 `;
 const StyledTableDiv = styled.div`
   border-radius: 15px;
@@ -259,6 +277,12 @@ const StyledTd = styled.td`
 `;
 const StyledTh = styled.th`
   display: flex;
+  align-items: center;
+`;
+
+const TooltipMSG = styled.div`
+  display: flex;
+  justify-content: center;
   align-items: center;
 `;
 export default CoinList;

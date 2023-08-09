@@ -12,32 +12,35 @@ const InterestCoin = () => {
       <StyledInterestCoinBox>
         <StyledInterestTitle>관심종목</StyledInterestTitle>
         <StyledTitleDivide></StyledTitleDivide>
-        <Swiper
-          spaceBetween={10}
-          slidesPerView={4}
-          onSlideChange={() => console.log("slide change")}
-          onSwiper={(swiper) => console.log(swiper)}
-        >
-          {interestCoin.map((market, index) => {
-            const marketDetail = krwMarketDetail.find(
-              (item) => item.market === market
-            );
-            const marketKoreanName = krwMarkets.find(
-              (item) => item.market === market
-            );
-            return (
-              <SwiperSlide key={index}>
-                <InterestCoinCard
-                  name={marketKoreanName?.korean_name}
-                  trade_price={marketDetail?.trade_price}
-                  signed_change_rate={marketDetail?.signed_change_rate}
-                  high={marketDetail?.highest_52_week_price}
-                  low={marketDetail?.lowest_52_week_price}
-                />
-              </SwiperSlide>
-            );
-          })}
-        </Swiper>
+        <div style={{ padding: "0px 8px 8px 8px" }}>
+          <Swiper
+            spaceBetween={10}
+            slidesPerView={4}
+            onSlideChange={() => console.log("slide change")}
+            onSwiper={(swiper) => console.log(swiper)}
+          >
+            {interestCoin.map((market, index) => {
+              const marketDetail = krwMarketDetail.find(
+                (item) => item.market === market
+              );
+              const marketKoreanName = krwMarkets.find(
+                (item) => item.market === market
+              );
+              return (
+                <SwiperSlide key={index}>
+                  <InterestCoinCard
+                    market={market}
+                    name={marketKoreanName?.korean_name}
+                    trade_price={marketDetail?.trade_price}
+                    signed_change_rate={marketDetail?.signed_change_rate}
+                    high={marketDetail?.highest_52_week_price}
+                    low={marketDetail?.lowest_52_week_price}
+                  />
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
+        </div>
       </StyledInterestCoinBox>
     </StyledInterestCoinCotainer>
   );
@@ -60,15 +63,15 @@ const StyledInterestTitle = styled.p`
   position: absolute;
   top: 0px;
   left: 0px;
-  font-size: 20px;
-  margin: 10px 0px 2px 2px;
+  font-size: 25px;
+  margin: 5px 0px 2px 2px;
   font-family: "HakgyoansimWoojuR";
 `;
 const StyledTitleDivide = styled.div`
   width: 100%;
   height: 1px;
   background-color: #b2b1b1;
-  margin-top: 35px;
+  margin-top: 30px;
 `;
 
 export default InterestCoin;
