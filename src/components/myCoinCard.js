@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import useCoinListStore from "../store/coinListStore";
+import WaveSVG from "./wave";
 
 const MyCoinCard = ({ market, name, avg_buy_price }) => {
   const { krwMarketDetail } = useCoinListStore();
@@ -24,6 +25,7 @@ const MyCoinCard = ({ market, name, avg_buy_price }) => {
           style={{ width: "80px", height: "80px" }}
           src="image/dogeCoin.png"
         />
+        <WaveSVG rate={profitRate.toFixed(2)} />
       </StyledImageBox>
     </StyledMyCoinCard>
   );

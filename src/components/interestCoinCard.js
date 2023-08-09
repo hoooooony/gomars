@@ -30,10 +30,17 @@ const InterestCoin = ({
           <StyledNewRecord color="#C22323">{low}</StyledNewRecord>
         </StyledInfoBox>
         <StyledImageBox>
-          <img
-            style={{ width: "80px", height: "80px" }}
-            src="image/dogeCoin.png"
-          />
+          {signed_change_rate < 0 ? (
+            <img
+              style={{ width: "80px", height: "80px" }}
+              src="image/dogeCoin.png"
+            />
+          ) : (
+            <img
+              style={{ width: "90px", height: "90px" }}
+              src="image/dogerocket.png"
+            />
+          )}
           {signed_change_rate < 0 && <WaveSVG rate={signed_change_rate} />}
         </StyledImageBox>
         <StyledDeleteButton onClick={() => removeInterestCoin(market)}>
@@ -115,4 +122,5 @@ const StyledNewRecord = styled.p`
   margin: 0;
   font-weight: 500;
 `;
+
 export default InterestCoin;

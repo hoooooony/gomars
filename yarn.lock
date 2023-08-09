@@ -6678,6 +6678,11 @@ jws@^3.1.4:
     jwa "^1.4.1"
     safe-buffer "^5.0.1"
 
+kadvice@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/kadvice/-/kadvice-2.0.1.tgz#c151e600a2e11c8ce4ff9120a79de323a93ffb69"
+  integrity sha512-pufmKqJVHceLUUjuwLd9BIUOV8NbNFRz3Cgok62H3c5UbLASWLyHRiUCmdAqrIolozCtmDtMH+06VustD6kfSQ==
+
 kind-of@^6.0.2:
   version "6.0.3"
   resolved "https://registry.npmjs.org/kind-of/-/kind-of-6.0.3.tgz"
