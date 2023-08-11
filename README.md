@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# 처음 화면
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<img src="https://github.com/hoooooony/gomars/assets/112807899/6d2a63b4-416e-43f9-aa72-9a84ffdbf69a">
 
 ## Available Scripts
 
