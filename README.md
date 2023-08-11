@@ -9,6 +9,6 @@
 
 
 # 실제 업비트에 보유하고 있는 코인정보
-<img src"https://github.com/hoooooony/gomars/assets/112807899/05747e33-de86-4709-bc62-4ba08487b3f6">
+<img src="https://github.com/hoooooony/gomars/assets/112807899/05747e33-de86-4709-bc62-4ba08487b3f6">
 매수가, 손익율을 알 수 있다.
 
