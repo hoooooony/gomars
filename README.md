@@ -19,7 +19,9 @@ localStorage를 이용해 관리하여 새로고침해도 사라지지 않는다
 
 #코인 리스트
 <img src="https://github.com/hoooooony/gomars/assets/112807899/60836c43-6551-4492-af60-962c3d253f9c">
+
 <img src="https://github.com/hoooooony/gomars/assets/112807899/67290210-c983-4fa4-8228-9e0bfbf5323c">
+
 등락율을 오르차순 내림차순에 따라 학인하고 관심코인에 추가할 수 있음
 
 
