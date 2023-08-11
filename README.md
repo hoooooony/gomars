@@ -1,6 +1,6 @@
 # 처음 화면
 
-<img src="https://github.com/hoooooony/gomars/assets/112807899/8c29ac6e-8a61-49dc-86e0-67e588c73d4e">
+<img src="https://github.com/hoooooony/gomars/assets/112807899/c9af1186-35c8-4149-b776-9f484f88b30e">
 
 # 한강온도
 <img src="https://github.com/hoooooony/gomars/assets/112807899/141edb73-c993-4128-aa08-8b6bc1ac89f0">
