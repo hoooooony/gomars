@@ -12,5 +12,6 @@
 <img src="https://github.com/hoooooony/gomars/assets/112807899/05747e33-de86-4709-bc62-4ba08487b3f6">
 매수가, 현재가, 이익율을 알 수 있다.
 
-#관심종목
+# 관심코인
+# 관심코인
 
