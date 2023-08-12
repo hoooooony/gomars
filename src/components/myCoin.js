@@ -9,12 +9,18 @@ import "swiper/css";
 import MyCoinCard from "./myCoinCard";
 
 const MyCoin = () => {
-  const { krwMarkets } = useCoinListStore();
+  const { krwMarkets, krwMarketDetail } = useCoinListStore();
   const [myCoins, setMyCoins] = useState([]);
 
   const getKoreanNameFromMarket = (market) => {
     const marketData = krwMarkets.find((item) => item.market === market);
     return marketData ? marketData.korean_name : "N/A";
+  };
+  const getPriceFromKoreanName = (market) => {
+    const marketDetail = krwMarketDetail.find(
+      (detail) => detail.market === market
+    );
+    return marketDetail ? marketDetail.trade_price : "N/A";
   };
   const fetchMyCoins = async () => {
     const access_key = process.env.REACT_APP_UPBIT_OPEN_API_ACCESS_KEY;
@@ -71,6 +77,7 @@ const MyCoin = () => {
                     market={`KRW-${coin.currency}`}
                     name={coin.korean_name}
                     avg_buy_price={coin.avg_buy_price}
+                    price={getPriceFromKoreanName(`KRW-${coin.currency}`)}
                   />
                 </SwiperSlide>
               ))}

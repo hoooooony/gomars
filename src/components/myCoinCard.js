@@ -3,7 +3,7 @@ import styled from "styled-components";
 import useCoinListStore from "../store/coinListStore";
 import WaveSVG from "./wave";
 
-const MyCoinCard = ({ market, name, avg_buy_price }) => {
+const MyCoinCard = ({ market, name, avg_buy_price, price }) => {
   const { krwMarketDetail } = useCoinListStore();
   const marketDetail = krwMarketDetail.find((item) => item.market === market);
   const currentTradePrice = marketDetail?.trade_price;
@@ -16,6 +16,7 @@ const MyCoinCard = ({ market, name, avg_buy_price }) => {
       <StyledInfoBox>
         <StyledCardTitle>{name}</StyledCardTitle>
         <div>매수 평균가: {avg_buy_price}₩</div>
+        <div>현재가: {price}₩</div>
         <StyledProfitRate rate={profitRate.toFixed(2)}>
           이익율: {profitRate.toFixed(2)}%
         </StyledProfitRate>
