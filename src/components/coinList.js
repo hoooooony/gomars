@@ -3,7 +3,7 @@ import styled from "styled-components";
 import useCoinListStore from "../store/coinListStore";
 import { Tooltip } from "react-tooltip";
 import { getMarketApi, getMarketDetailApi } from "../api/getmarketapi";
-
+import "./addtiontooltip.css";
 function CoinList() {
   const {
     krwMarkets,
@@ -101,9 +101,11 @@ function CoinList() {
         <td>{startIndex + index + 1}</td>
         <StyledTd
           data-tooltip-id="name-tooltip"
-          data-tooltip-content={`이름: ${getKoreanNameFromMarket(
+          data-tooltip-html={`<b>이름:</b> ${getKoreanNameFromMarket(
             item.market
-          )} 가격: ${item.trade_price} 변화율: ${item.signed_change_rate}`}
+          )}<br>
+          <b>52주 신고가:</b> ${item.highest_52_week_price}₩<br> 
+          <b>52주 신저가:</b> ${item.lowest_52_week_price}₩`}
         >
           {getKoreanNameFromMarket(item.market)}
         </StyledTd>
@@ -177,6 +179,7 @@ function CoinList() {
         type="dark"
         effect="float"
         offset={5}
+        data-tooltip-html="false"
       />
       <Tooltip
         id="rate-tooltip"
